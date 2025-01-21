@@ -12,7 +12,6 @@ class Admin::OrdersController < ApplicationController
       redirect_to admin_dashboard_path
     end
   end
-  
 
   def out_for_delivery
     @order = Order.find(params[:id])
@@ -26,9 +25,6 @@ class Admin::OrdersController < ApplicationController
     end
   end
   
-  
-  
-
   def delivered
     @order = Order.find(params[:id])
     if @order.update(status: 'Delivered')
@@ -41,7 +37,6 @@ class Admin::OrdersController < ApplicationController
     end
   end
   
-
   private
 
   def set_order
