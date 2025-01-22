@@ -8,24 +8,20 @@ class ReviewsController < ApplicationController
 
   def create
     @product = Product.find(params[:product_id])
-    @review = @product.reviews.build(review_params)
-    @review.user = current_user
-    rating = params[:review][:rating].to_i
-    @review.rating = 6 - rating  
-    if @review.save
-      redirect_to @product, notice: 'Review was successfully created.'
+    review_service = Reviews::ReviewService.new(@product, current_user, review_params, params[:review][:rating])
+
+    if review_service.create_or_update_review
+      redirect_to @product, notice: 'Your review has been updated successfully.'
     else
-      flash[:alert] = 'Failed to create review. Please correct the errors below.'
+      flash[:alert] = 'Failed to create/update review. Please correct the errors below.'
       redirect_to @product
     end
   end
-  
-  
-  
 
   def destroy
+    review_service = Reviews::ReviewService.new(@review.product, current_user, nil, nil)
     if current_user == @review.user || current_user.admin?
-      @review.destroy
+      review_service.destroy_review(@review)
       redirect_to product_path(@review.product), notice: "Review deleted successfully."
     else
       redirect_to product_path(@review.product), alert: "You are not authorized to delete this review."
@@ -33,18 +29,13 @@ class ReviewsController < ApplicationController
   end
 
   def like
-    @review = Review.find(params[:id])
-    if @review.likes.exists?(user: current_user)
-      @review.likes.find_by(user: current_user).destroy
-    else
-      @review.likes.create(user: current_user)
-    end
+    review_service = Reviews::ReviewService.new(@review.product, current_user, nil, nil)
+    review_service.toggle_like(@review)
 
     respond_to do |format|
       format.js
     end
   end
-  
 
   private
 
