@@ -71,17 +71,31 @@
 
                 </p>
                 <p class="text-muted" style="font-size: 0.95rem; line-height: 1.4;"><%= review.content %></p>
-                <p class="text-secondary" style="font-size: 0.9rem;">Likes: <strong><%= review.likes.count %></strong></p>
+                <p class="text-secondary" style="font-size: 0.9rem;">
+                    Likes: <strong id="like-counter-<%= review.id %>"><%= review.likes.count %></strong>
+                </p>
 
                 <div class="d-flex gap-3">
                     <% if user_signed_in? && current_user != review.user %>
-                    <%= link_to "Like", like_review_path(review), method: :post, class: "btn btn-sm btn-outline-primary" %>
+                    <%= link_to like_review_path(review), 
+                method: :post, 
+                remote: true, 
+                class: "btn btn-sm #{review.likes.exists?(user: current_user) ? 'btn-primary' : 'btn-outline-primary'} like-button", 
+                id: "like-button-#{review.id}" do %>
+                    <i class="fa #{review.likes.exists?(user: current_user) ? 'fa-thumbs-up' : 'fa-thumbs-o-up'}"></i> Like
+                    <% end %>
                     <% end %>
 
                     <% if current_user == review.user || current_user.admin? %>
-                    <%= link_to "Delete", review_path(review), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-outline-danger" %>
+                    <%= link_to "Delete", 
+                review_path(review), 
+                method: :delete, 
+                data: { confirm: 'Are you sure?' }, 
+                class: "btn btn-sm btn-outline-danger" %>
                     <% end %>
                 </div>
+
+
 
                 <div class="comments mt-2">
                     <% review.comments.each do |comment| %>

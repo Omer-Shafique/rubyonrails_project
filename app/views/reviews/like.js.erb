@@ -1,1 +1,24 @@
-$('#like-count-<%= @review.id %>').text('<%= @review.like_count %>');
+(function updateLikeButton() {
+  let likeButton = document.getElementById("like-button-<%= @review.id %>");
+  let likeCounter = document.getElementById("like-counter-<%= @review.id %>");
+
+  if (likeButton) {
+    if (likeButton.classList.contains("btn-primary")) {
+      likeButton.classList.remove("btn-primary");
+      likeButton.classList.add("btn-outline-primary");
+      likeButton.innerHTML = '<i class="fa fa-thumbs-o-up"></i> Like';
+      if (likeCounter) {
+        let count = parseInt(likeCounter.textContent, 10);
+        likeCounter.textContent = count - 1;
+      }
+    } else {
+      likeButton.classList.remove("btn-outline-primary");
+      likeButton.classList.add("btn-primary");
+      likeButton.innerHTML = '<i class="fa fa-thumbs-up"></i> Liked';
+      if (likeCounter) {
+        let count = parseInt(likeCounter.textContent, 10);
+        likeCounter.textContent = count + 1;
+      }
+    }
+  }
+})();

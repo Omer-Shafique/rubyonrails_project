@@ -29,14 +29,18 @@ class ReviewsController < ApplicationController
   end
 
   def like
-    @like = @review.likes.new(user: current_user)
-
-    if @like.save
-      redirect_to product_path(@review.product), notice: "You liked this review."
+    @review = Review.find(params[:id])
+    if @review.likes.exists?(user: current_user)
+      @review.likes.find_by(user: current_user).destroy
     else
-      redirect_to product_path(@review.product), alert: "You can only like a review once."
+      @review.likes.create(user: current_user)
+    end
+
+    respond_to do |format|
+      format.js
     end
   end
+  
 
   private
 
