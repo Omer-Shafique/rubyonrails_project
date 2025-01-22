@@ -10,14 +10,18 @@ class ReviewsController < ApplicationController
     @product = Product.find(params[:product_id])
     @review = @product.reviews.build(review_params)
     @review.user = current_user
-
+    rating = params[:review][:rating].to_i
+    @review.rating = 6 - rating  
     if @review.save
       redirect_to @product, notice: 'Review was successfully created.'
     else
       flash[:alert] = 'Failed to create review. Please correct the errors below.'
-      redirect_to @product 
+      redirect_to @product
     end
   end
+  
+  
+  
 
   def destroy
     if current_user == @review.user || current_user.admin?

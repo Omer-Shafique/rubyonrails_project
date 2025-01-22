@@ -9,8 +9,12 @@
 # user can delete their own reviews and admin can delete any review and cannot edit
 # order tracking for the user, user can see the status of the order
 #code refactoring
+#like bug fixed
 
 
 
 #stripe price and quantity synchonization. 
+#fix the small edge case in the review section
+
+
 
