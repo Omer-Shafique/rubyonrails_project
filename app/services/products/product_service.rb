@@ -22,9 +22,8 @@ module Products
         currency: 'usd',
         source: @params[:stripeToken],
         description: "Charged for product #{@product.product_title}",
+        metadata: { "Name" => @user_name, "Email" => @user_email},
         receipt_email: @user_email,
-        metadata: { "Name" => @user_name, "Email" => @user_email}
-
       )
     end
 

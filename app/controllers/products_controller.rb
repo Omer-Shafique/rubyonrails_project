@@ -26,6 +26,7 @@ class ProductsController < ApplicationController
     end
   end
 
+  
   def create
     @product = current_user.products.build(product_params)
     product_service = Products::ProductService.new(@product, params)
