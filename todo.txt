@@ -9,3 +9,8 @@
 # user can delete their own reviews and admin can delete any review and cannot edit
 # order tracking for the user, user can see the status of the order
 #code refactoring
+
+
+
+#stripe price and quantity synchonization. 
+

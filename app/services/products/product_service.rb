@@ -1,3 +1,5 @@
+#used in the product controller (admin namespace not included)
+
 module Products
   class ProductService
     def initialize(product, params = {})
@@ -6,7 +8,6 @@ module Products
     @current_user = @params[:current_user] || (@product.present? ? @product.user : nil)
   end
 
-    # Search products based on query
     def search_products
       if @params[:query].present?
         Product.where("LOWER(product_title) LIKE LOWER(?) OR LOWER(product_description) LIKE LOWER(?)", "%#{@params[:query]}%", "%#{@params[:query]}%")
@@ -20,11 +21,13 @@ module Products
         amount: (@product.price * 100).to_i,
         currency: 'usd',
         source: @params[:stripeToken],
-        description: "Charge for product #{@product.product_title}"
+        description: "Charged for product #{@product.product_title}",
+        receipt_email: @user_email,
+        metadata: { "Name" => @user_name, "Email" => @user_email}
+
       )
     end
 
-    # Handle successful payment and create order
     def handle_successful_payment(charge)
       if @product.reduce_stripe_quantity
         @order = create_order
@@ -44,7 +47,6 @@ module Products
       begin
         stripe_product = Stripe::Product.retrieve(@product.stripe_product_id)
 
-        # Archive the product on Stripe
         archive_successful = Stripe::Product.update(@product.stripe_product_id, active: false)
 
         if archive_successful
@@ -63,8 +65,6 @@ module Products
       end
     end
 
-
-    # Create a new order for the product
     def create_order
       Order.new(
         product: @product,
@@ -79,7 +79,6 @@ module Products
       )
     end
 
-    # Handle product creation logic
     def create_product
       if @product.save
         @product.create_or_update_stripe_product
@@ -89,7 +88,7 @@ module Products
       end
     end
 
-    # Handle product update logic
+    
     def update_product(product_params)
       @product.update(product_params)
       @product.create_or_update_stripe_product

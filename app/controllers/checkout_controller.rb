@@ -5,7 +5,7 @@ class CheckoutController < ApplicationController
   end
 
   def create
-    result = CheckoutService.new(@product, params[:stripeToken], current_user.name, current_user.email).process
+    result = Orders::CheckoutService.new(@product, params[:stripeToken], current_user.name, current_user.email).process
     handle_response(result)
   end
 

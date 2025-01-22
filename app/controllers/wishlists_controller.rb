@@ -2,12 +2,12 @@ class WishlistsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @wishlisted_products = WishlistService.new(current_user).fetch_wishlist
+    @wishlisted_products = Wishlists::WishlistService.new(current_user).fetch_wishlist
   end
 
   def create
     product = Product.find(params[:product_id])
-    service = WishlistService.new(current_user)
+    service = Wishlists::WishlistService.new(current_user)
     if service.add_to_wishlist(product)
       redirect_to product_path(product), notice: "Product added to wishlist"
     else
@@ -16,7 +16,7 @@ class WishlistsController < ApplicationController
   end
 
   def destroy
-    service = WishlistService.new(current_user)
+    service = Wishlists::WishlistService.new(current_user)
     if service.remove_from_wishlist(params[:product_id])
       redirect_to product_path(params[:product_id]), notice: "Product removed from wishlist"
     else

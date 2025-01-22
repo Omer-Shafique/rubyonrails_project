@@ -31,11 +31,11 @@ class CommentsController < ApplicationController
   end
 
   def comment_creation_service
-    @comment_creation_service ||= CommentCreationService.new(@review, comment_params, current_user)
+    @comment_creation_service ||= Comments::CommentCreationService.new(@review, comment_params, current_user)
   end
 
   def comment_destruction_service
-    @comment_destruction_service ||= CommentDestructionService.new(@review, params[:id])
+    @comment_destruction_service ||= Comments::CommentDestructionService.new(@review, params[:id])
   end
 
   def handle_response(success)

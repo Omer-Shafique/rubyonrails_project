@@ -14,10 +14,10 @@ class ProductsController < ApplicationController
   
   def show
     @products = Product.where(user: current_user)
-    @review = @product.reviews.first
+    @review = @product.reviews.first #tbd
   end
 
-  #disabled - todo
+  #tbd
   def search
     @products = Products::ProductService.new(nil, params).search_products
     respond_to do |format|

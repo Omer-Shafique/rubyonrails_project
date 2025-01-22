@@ -1,3 +1,5 @@
+#this service is used in the stripe controller
+
 class CheckoutProductValidator
   attr_reader :errors, :user_name, :user_email
 

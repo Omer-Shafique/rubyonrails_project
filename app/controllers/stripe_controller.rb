@@ -6,7 +6,7 @@ class StripeController < ApplicationController
     sig_header = request.env["HTTP_STRIPE_SIGNATURE"]
     endpoint_secret = ENV["STRIPE_WEBHOOK_SECRET"]
 
-    service = StripeWebhookService.new(payload, sig_header, endpoint_secret)
+    service = StripeOperations::StripeWebhookService.new(payload, sig_header, endpoint_secret)
     if service.process_webhook
       head :ok
     else
@@ -20,7 +20,7 @@ class StripeController < ApplicationController
 
     validator = CheckoutProductValidator.new(params)
     if validator.valid?
-      service = CheckoutService.new(@product, validator.user_name, validator.user_email, stripe_token)
+      service = Orders::CheckoutService.new(@product, validator.user_name, validator.user_email, stripe_token)
       if service.process_checkout
         flash[:success] = "Payment successful! Thank you, #{validator.user_name}."
         redirect_to success_path

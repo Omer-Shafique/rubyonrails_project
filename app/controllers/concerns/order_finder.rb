@@ -1,3 +1,5 @@
+# used in the order controller
+
 module OrderFinder
   extend ActiveSupport::Concern
 

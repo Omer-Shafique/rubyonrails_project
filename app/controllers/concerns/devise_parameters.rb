@@ -1,3 +1,4 @@
+#used in the application controller
 module DeviseParameters
   extend ActiveSupport::Concern
 

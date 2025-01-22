@@ -1,3 +1,4 @@
+#used in the checkout controller
 module ProductFinder
   extend ActiveSupport::Concern
 

@@ -11,7 +11,7 @@ class Admin::ProductsController < ApplicationController
   end
 
   def create
-    product_service = ProductService.new(product_params)
+    product_service = Admin::ProductService.new(product_params)
     if product_service.create_product
       redirect_to admin_products_path, notice: 'Product created successfully.'
     else
@@ -25,7 +25,7 @@ class Admin::ProductsController < ApplicationController
 
   def update
     @product = Product.find(params[:id])
-    product_service = ProductService.new(product_params)
+    product_service = Admin::ProductService.new(product_params)
     if product_service.update_product(@product)
       redirect_to admin_products_path, notice: 'Product updated successfully.'
     else
@@ -33,7 +33,8 @@ class Admin::ProductsController < ApplicationController
     end
   end
 
-  def destroy
+  
+  def destroy #tbd
     @product = Product.find(params[:id])
     @product.destroy
     redirect_to admin_products_path, notice: 'Product deleted successfully.'

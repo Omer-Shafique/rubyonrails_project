@@ -1,3 +1,5 @@
+# its function reduce product quantity is called in the stripe charge service
+
 module ProductStripe
   extend ActiveSupport::Concern
 
