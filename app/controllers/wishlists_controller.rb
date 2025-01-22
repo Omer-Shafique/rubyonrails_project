@@ -1,3 +1,4 @@
+#not in use for now!
 class WishlistsController < ApplicationController
   before_action :authenticate_user!
 
