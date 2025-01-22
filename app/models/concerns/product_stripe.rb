@@ -10,7 +10,8 @@ module ProductStripe
       if stripe_price_id.blank? || stripe_product_id.blank?
         stripe_product = Stripe::Product.create(
           name: product_title,
-          description: product_description
+          description: product_description,
+          metadata: { stock_quantity: stock_quantity }
         )
         stripe_price = Stripe::Price.create(
           unit_amount: (price * 100).to_i,

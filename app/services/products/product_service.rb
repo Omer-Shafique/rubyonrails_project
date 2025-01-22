@@ -28,17 +28,9 @@ module Products
       )
     end
 
+    
     def handle_successful_payment(charge)
-      if @product.reduce_stripe_quantity
-        @order = create_order
-        if @order.save
-          @order
-        else
-          false
-        end
-      else
-        false
-      end
+         @product.reduce_stripe_quantity
     end
 
     def archive_and_destroy_product
