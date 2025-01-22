@@ -141,12 +141,12 @@
     <% if user_signed_in? %>
     <div class="review-form mt-4 p-4 shadow-sm" style="border: none; border-radius: 12px; background-color: #fff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
         <h4 class="text-primary mb-3" style="font-weight: 600; letter-spacing: 0.8px;">Write a Review</h4>
-        <%= form_with(model: [@product, Review.new], local: true, class: "needs-validation") do |form| %>
+        <%= form_with(model: [product, Review.new], local: true, class: "needs-validation") do |form| %>
         <div class="mb-3">
             <%= form.label :rating, "Rating", class: "form-label" %>
             <div class="star-rating">
                 <% 5.times do |i| %>
-                <%= radio_button_tag 'review[rating]', i+1, (i+1 == @review.rating), id: "rating_#{i+1}", class: 'star-input' %>
+                <%= radio_button_tag 'review[rating]', i+1, false, id: "rating_#{i+1}", class: 'star-input' %>
                 <label for="rating_<%= i+1 %>" class="star-label">&#9733;</label>
                 <% end %>
             </div>
