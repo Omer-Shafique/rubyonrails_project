@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = current_user.orders.find(params[:id])
+    @orders = current_user.orders.paginate(page: params[:page], per_page: 1)
   end
   
 end
